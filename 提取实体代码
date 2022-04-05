@@ -1,0 +1,46 @@
+import requests
+from urllib.request import urlopen
+from multiprocessing import Pool
+import time
+import urllib.request
+import re
+from requests_html import HTMLSession
+
+#打开文件
+file2=open('D:\\pubtator.txt')
+disease=open('D:\\disease.txt','w')
+gene=open('D:\\gene.txt','w')
+chemical=open('D:\\chemical.txt','w')
+mutation=open('D:\\mutation.txt','w')
+species=open('D:\\species.txt','w')
+cellline=open('D:\\cellline.txt','w')
+
+#正则表达式
+Species = re.compile('Species'+'\t')
+Disease = re.compile('Disease'+'\t')
+Chemical = re.compile('Chemical'+'\t')
+Mutation = re.compile('Mutation'+'\t')
+Gene = re.compile('Gene'+'\t')
+Cellline = re.compile('Cellline'+'\t')
+
+#遍历pubtator文本，提取实体
+for line in file2.readlines():
+    if(re.search(Species, line, flags=0)):
+        species.write(line)
+    if(re.search(Disease, line, flags=0)):
+        disease.write(line)
+    if(re.search(Chemical, line, flags=0)):
+        chemical.write(line)
+    if(re.search(Mutation, line, flags=0)):
+        mutation.write(line)
+    if(re.search(Gene, line, flags=0)):
+        gene.write(line)
+    if(re.search(Cellline, line, flags=0)):
+        cellline.write(line)
+#保存文件
+disease.close()
+gene.close()
+chemical.close()
+mutation.close()
+species.close()
+cellline.close()
