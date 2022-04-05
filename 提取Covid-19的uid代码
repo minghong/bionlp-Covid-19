@@ -1,5 +1,5 @@
 wget https://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/xtract.Linux.gz
 gunzip -f xtract.Linux.gz 
-chmod -x xtract.Linux 
+chmod -x xtract.Linux //因为报错，所以按照报错信息安装以上代码
 
 esearch -db pubmed -query "covid-19" | efetch -format uid > pubmed.txt //提取所有文献的uid
