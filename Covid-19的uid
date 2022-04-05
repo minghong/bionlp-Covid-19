@@ -1,0 +1,4 @@
+wget https://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/xtract.Linux.gz
+gunzip -f xtract.Linux.gz 
+chmod -x xtract.Linux 
+esearch -db pubmed -query "covid-19" | efetch -format uid > pubmed.txt
