@@ -1,3 +1,4 @@
+
 import requests
 from urllib.request import urlopen
 from multiprocessing import Pool
@@ -6,41 +7,42 @@ import urllib.request
 import re
 from requests_html import HTMLSession
 
-#打开文件
-file2=open('D:\\pubtator.txt')
-disease=open('D:\\disease.txt','w')
-gene=open('D:\\gene.txt','w')
-chemical=open('D:\\chemical.txt','w')
-mutation=open('D:\\mutation.txt','w')
-species=open('D:\\species.txt','w')
-cellline=open('D:\\cellline.txt','w')
+file2=open('e:\\r\\18.txt')
+disease=open('e:\\disease.txt','a')#因为有多份数据，所以要不断追加书写
+gene=open('e:\\gene.txt','a')
+chemical=open('e:\\chemical.txt','a')
+mutation=open('e:\\mutation.txt','a')
+species=open('e:\\species.txt','a')
+cellline=open('e:\\cellline.txt','a')
+zy=open('e:\\zy.txt','a')
 
-#正则表达式
-Species = re.compile('Species'+'\t')
+Species = re.compile('Species'+'\t')#正则表达，提取信息
 Disease = re.compile('Disease'+'\t')
 Chemical = re.compile('Chemical'+'\t')
 Mutation = re.compile('Mutation'+'\t')
 Gene = re.compile('Gene'+'\t')
 Cellline = re.compile('Cellline'+'\t')
 
-#遍历pubtator文本，提取实体
 for line in file2.readlines():
     if(re.search(Species, line, flags=0)):
         species.write(line)
-    if(re.search(Disease, line, flags=0)):
+    elif(re.search(Disease, line, flags=0)):
         disease.write(line)
-    if(re.search(Chemical, line, flags=0)):
+    elif(re.search(Chemical, line, flags=0)):
         chemical.write(line)
-    if(re.search(Mutation, line, flags=0)):
+    elif(re.search(Mutation, line, flags=0)):
         mutation.write(line)
-    if(re.search(Gene, line, flags=0)):
+    elif(re.search(Gene, line, flags=0)):
         gene.write(line)
-    if(re.search(Cellline, line, flags=0)):
+    elif(re.search(Cellline, line, flags=0)):
         cellline.write(line)
-#保存文件
+    else:
+        zy.write(line)
+    
 disease.close()
 gene.close()
 chemical.close()
 mutation.close()
 species.close()
 cellline.close()
+zy.close()
