@@ -24,7 +24,7 @@ file2.close()
 '''
 
 '''
-多进程，速度快，缺点是会丢失大量数据，需要不断利用excel寻找遗漏的数据，大概1-2轮即可得到完整数据。时间大概6小时
+多进程，速度快，缺点是会丢失大量数据，需要不断利用excel寻找遗漏的数据，大概3轮左右即可得到完整数据。时间大概6小时
 
 import time
 import requests
@@ -38,38 +38,40 @@ import requests
 import urllib.request
 import re
 
-file=open('D:\\pubmed1.txt')
+file=open('e:\\uid.txt')
 pmid=file.readlines()
-
-def get_data(url):
-    file2=open('D:\\test.txt','a')
-    data=urllib.request.urlopen(url).read()
+file2=open('e:\\test.txt','a')#数据信息
+file3=open('e:\\use.txt','a')#追加写入，处理过的uid
+def get_data1(url):
+    data=urllib.request.urlopen(url).read()#获取网站的信息
     data=data.decode("utf-8")
-    file2.write(data)
+    file2.write(data)#写入文件中
+    file3.write(url)#保存记录的uid号，因为在并行中会遗漏一些数据，所以保存下已经处理的uid号，之后在excel中找出未被处理的uid号并再次处理
     return 1
 
-def get_url():
+def get_url1():#这个函数代码借鉴了黄紫嫣学姐等人的代码，主要是让我写也就这么写，实在没有重写和优化的必要了
     url_list=[]
     for i in pmid:
         url='https://www.ncbi.nlm.nih.gov/research/pubtator-api/publications/export/pubtator?pmids='+str(i)
         url_list.append(url)
     return url_list
+
 s=time.time()
-urls=get_url()
-executor = futures.ThreadPoolExecutor(max_workers=10)
+urls=get_url1()
+executor = futures.ThreadPoolExecutor(max_workers=10)#数字越大处理越快，不过遗漏的信息就越多。比如100线程时会遗漏50%的信息，10线程时大概会遗漏5%的信息
 fs=[]
-i=0
 for url in urls:
-    f=executor.submit(get_data, url)
+    f=executor.submit(get_data1, url)#提交到多线程池里
     fs.append(f)
-    i=i+1
-    print(i)
+    
 futures.wait(fs)
+print(time.time()-s)#等待处理结束，并提醒程序已经结束了
 
-print(time.time()-s)
+'''
 
 '''
 
+excel辅助多进程处理
+使用countif函数即可，sumif函数也可以使用，在此不赘述、
+
 '''
-excel辅助多进程
-使用countif函数即可，在此不赘述
