@@ -1,3 +1,2 @@
 # bionlp-Covid-19
-
-代码以及数据分别在各自的branch下
+短文、长文pdf版本
